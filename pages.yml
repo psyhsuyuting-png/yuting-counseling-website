@@ -1,0 +1,83 @@
+media:
+  input: assets/images/posts
+  output: /assets/images/posts
+  rename: safe
+  extensions: [jpg, jpeg, png, webp]
+
+content:
+  - name: posts
+    label: 文章
+    type: collection
+    path: content/posts
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, date, category, draft]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: 文章標題
+        type: string
+        required: true
+      - name: slug
+        label: 網址名稱
+        type: string
+        required: true
+        description: 請使用小寫英文、數字與連字號，例如 understanding-anxiety
+        pattern:
+          regex: "^[a-z0-9-]+$"
+          message: 只能使用小寫英文、數字與連字號
+      - name: date
+        label: 發布日期
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: category
+        label: 文章分類
+        type: select
+        required: true
+        options:
+          values:
+            - 深度自我探索
+            - 原生家庭與童年經驗創傷
+            - 關係與依附失落
+            - 完美主義與成就焦慮
+            - 情緒與壓力調適
+            - 多元性別與文化
+      - name: excerpt
+        label: 文章摘要
+        type: text
+        required: true
+        description: 建議 60～120 字，會顯示在文章列表與搜尋結果。
+      - name: cover
+        label: 封面圖片
+        type: image
+        required: false
+      - name: cover_alt
+        label: 封面圖片說明
+        type: string
+        required: false
+        description: 為視障讀者描述圖片內容，也有助於 SEO。
+      - name: seo_title
+        label: SEO 標題
+        type: string
+        required: false
+        description: 留白時使用文章標題，建議不超過 60 個中文字元。
+      - name: seo_description
+        label: SEO 描述
+        type: text
+        required: false
+        description: 留白時使用文章摘要，建議不超過 120 個中文字元。
+      - name: draft
+        label: 儲存為草稿
+        type: boolean
+        default: true
+      - name: body
+        label: 文章正文
+        type: rich-text
+        required: true
